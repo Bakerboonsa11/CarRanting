@@ -1,6 +1,9 @@
 const express=require('express');
+const morgan = require('morgan');
 
 const App =express()
+// morgan midlware used to log request info
+App.use(morgan("dev"))
 
 App.get('/',(req,res)=>{
   res.status(200).json({
@@ -8,13 +11,9 @@ App.get('/',(req,res)=>{
   })
 })
 
-const port =3000
-
-App.listen(port,()=>{
-    console.log(`server is running at port ${port}`)
-}
-)
 
 
+
+module.exports=App
 
 
