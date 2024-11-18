@@ -90,7 +90,7 @@ exports.deleteCar=async(req,res)=>{
        }
         res.status(200).json({
             status:"success",
-            message:"a car is deleted succesfully"
+            message:"car is deleted succesfully"
         })
     }
     catch(error){
