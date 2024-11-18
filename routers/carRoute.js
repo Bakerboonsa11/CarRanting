@@ -1,4 +1,5 @@
 const express=require('express');
+const carController=require('./../controllers/carController')
 // const { route } = require('../App');
 
 
@@ -6,11 +7,7 @@ const Router=express.Router();
 
 
 Router.route('/')
-.get((req,res)=>{
-    res.status(200).json({
-       message:"the car route home"
-    })
-})
+.get(carController.createCar)
 
 
 module.exports=Router
