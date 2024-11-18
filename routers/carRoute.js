@@ -1,11 +1,9 @@
 const express=require('express');
 const carController=require('./../controllers/carController')
 
-
-
 const Router=express.Router();
 
-
+// GENERAL CAR ROUTES
 Router.route('/')
 .get(carController.getAllCar)
 .post(carController.createCar)
