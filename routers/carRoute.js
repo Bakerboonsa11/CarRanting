@@ -8,6 +8,7 @@ Router.route('/')
 .get(carController.getAllCar)
 .post(carController.createCar)
 Router.route("/:id")
+.get(carController.getOneCar)
 .patch(carController.updateCar)
 .delete(carController.deleteCar)
 

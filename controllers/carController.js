@@ -22,6 +22,27 @@ exports.getAllCar=async(req,res)=>{
  
 
 }
+exports.getOneCar=async(req,res)=>{
+    try{
+        const car=await Car.findById(req.params.id)
+        if(!car){
+            return res.status(404).json({
+                status:"fail",
+                message:"there is no car with is id"
+            })
+        }
+
+        res.status(200).json({
+            status:"success",
+            data:{
+                car
+            }
+        })
+    }
+    catch(error){
+
+    }
+}
 exports.createCar=async(req,res)=>{
 try{
 console.log(req.body)
