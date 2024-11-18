@@ -85,7 +85,7 @@ exports.deleteCar=async(req,res)=>{
        if(!doc){
         return res.status(404).json({
             status:"fail",
-            message:"there is no car with this info"
+            message:"there is no car with this information"
         })
        }
         res.status(200).json({
