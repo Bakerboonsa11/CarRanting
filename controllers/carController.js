@@ -1,7 +1,27 @@
 const Car=require('./../models/carModel');
 
 
+exports.getAllCar=async(req,res)=>{
+    try{
+         const AllCar=await Car.find();
+         if(!AllCar){
+            return res.status('404').json({
+                status:"fail",
+                message:"there is no any car"
+            })
+         }
 
+        res.status(200).json({
+            status:"success",
+            cars:AllCar
+        })
+    }
+    catch(error){
+         console.log(error)
+    }
+ 
+
+}
 exports.createCar=async(req,res)=>{
 try{
 console.log(req.body)

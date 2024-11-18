@@ -7,7 +7,7 @@ const Router=express.Router();
 
 
 Router.route('/')
-// .get(carController.createCar)
+.get(carController.getAllCar)
 .post(carController.createCar)
 Router.route("/:id")
 .patch(carController.updateCar)
