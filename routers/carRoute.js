@@ -7,7 +7,8 @@ const Router=express.Router();
 
 
 Router.route('/')
-.get(carController.createCar)
+// .get(carController.createCar)
+.post(carController.createCar)
 
 
 module.exports=Router
