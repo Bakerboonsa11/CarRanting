@@ -55,7 +55,6 @@ const createdCar=await Car.create(req.body)
 catch(error){
    console.log("there is error with creating the car")
    console.log(error)
-   
 }
 }
 
