@@ -1,10 +1,16 @@
 const Car=require('./../models/carModel');
-
+const AppFeatures=require("./../utils/AppFeatures")
 
 exports.getAllCar=async(req,res)=>{
     try{
-         const AllCar=await Car.find();
-         if(!AllCar){
+         const query=req.query
+         console.log(query)
+         const feature=new AppFeatures(Car.find(),req.query).filter();
+         console.log(feature)
+         const CarsFiltered=await feature.databaseQuery
+        
+        //  const AllCar=await Car.find();
+         if(!CarsFiltered){
             return res.status('404').json({
                 status:"fail",
                 message:"there is no any car"
@@ -13,7 +19,7 @@ exports.getAllCar=async(req,res)=>{
 
         res.status(200).json({
             status:"success",
-            cars:AllCar
+            cars:CarsFiltered
         })
     }
     catch(error){
