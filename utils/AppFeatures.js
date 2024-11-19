@@ -20,11 +20,10 @@ class AppFeatures{
 
   sort(){
     if(!this.queryString.sort){
-    //   sort by name or do onother general idea
-    console.log('not found is runnin')
+
      this.databaseQuery.sort("-createdAt")
     }
-    console.log('this part is running')
+  
     const sortBy=this.queryString.sort.split(',').join(' ')
     this.databaseQuery.sort(`-${sortBy}`)
      return this
@@ -42,6 +41,17 @@ class AppFeatures{
    else{ this.databaseQuery=this.databaseQuery.select('-__v')}
    return this
   }
+
+ pagination(){
+    const limit=this.queryString.limit*1
+    const page=this.queryString.page*1
+    const skip=(page-1)*limit
+    if(this.queryString.limit||this.queryString.page){
+         this.databaseQuery.skip(skip).limit(limit)
+    }
+
+    return this
+ }
 }
 
 

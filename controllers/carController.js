@@ -1,11 +1,23 @@
 const Car=require('./../models/carModel');
 const AppFeatures=require("./../utils/AppFeatures")
 
+
+
+exports.getTopCar=(req,res,next)=>{
+      req.query.pricePerDay=50;
+      req.query.limit=3
+      req.query.page=1
+      req.query.sort="-pricePerDay",
+      req.query.fields='name,make,pricePerDay'
+
+      next()
+}
+
 exports.getAllCar=async(req,res)=>{
     try{
          const query=req.query
-         console.log(query)
-         const feature=new AppFeatures(Car.find(),req.query).filter().sort().fields();
+       
+         const feature=new AppFeatures(Car.find(),req.query).filter().sort().fields().pagination();
       
          const CarsFiltered=await feature.databaseQuery
         
@@ -19,6 +31,7 @@ exports.getAllCar=async(req,res)=>{
 
         res.status(200).json({
             status:"success",
+            length:CarsFiltered.length,
             cars:CarsFiltered
         })
     }
@@ -51,7 +64,7 @@ exports.getOneCar=async(req,res)=>{
 }
 exports.createCar=async(req,res)=>{
 try{
-console.log(req.body)
+
 const createdCar=await Car.create(req.body)
 
   res.status(200).json({
@@ -66,7 +79,7 @@ catch(error){
 
 exports.updateCar=async(req,res)=>{
     try{
-        console.log(req.params.id,req.body)
+    
         const updatedUser= await Car.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
         if(!updatedUser){
             return res.status(404).json({

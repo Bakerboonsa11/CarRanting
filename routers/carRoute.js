@@ -3,6 +3,12 @@ const carController=require('./../controllers/carController')
 
 const Router=express.Router();
 
+// STATICS DATA CAR ROUTES
+Router.route('/top-3-cheapCar')
+.get(carController.getTopCar,carController.getAllCar)
+
+
+
 // GENERAL CAR ROUTES
 Router.route('/')
 .get(carController.getAllCar)
