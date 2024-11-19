@@ -7,7 +7,7 @@ class AppFeatures{
 
    filter(){
     const queryObject={...this.queryString};
-    const ExcludeObject=["page","limit","sort","field"]
+    const ExcludeObject=["page","limit","sort","fields"]
 
     ExcludeObject.forEach((el)=>{
         delete queryObject[el]
@@ -29,6 +29,18 @@ class AppFeatures{
     this.databaseQuery.sort(`-${sortBy}`)
      return this
 
+  }
+
+ fields(){
+
+   if(this.queryString.fields){
+    const selectBy=this.queryString.fields.split(',').join(' ');
+   
+    this.databaseQuery=this.databaseQuery.select(selectBy)
+  
+   }
+   else{ this.databaseQuery=this.databaseQuery.select('-__v')}
+   return this
   }
 }
 
