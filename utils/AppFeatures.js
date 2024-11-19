@@ -21,8 +21,13 @@ class AppFeatures{
   sort(){
     if(!this.queryString.sort){
     //   sort by name or do onother general idea
+    console.log('not found is runnin')
+     this.databaseQuery.sort("-createdAt")
     }
-
+    console.log('this part is running')
+    const sortBy=this.queryString.sort.split(',').join(' ')
+    this.databaseQuery.sort(`-${sortBy}`)
+     return this
 
   }
 }

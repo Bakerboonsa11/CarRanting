@@ -5,8 +5,8 @@ exports.getAllCar=async(req,res)=>{
     try{
          const query=req.query
          console.log(query)
-         const feature=new AppFeatures(Car.find(),req.query).filter();
-         console.log(feature)
+         const feature=new AppFeatures(Car.find(),req.query).filter().sort();
+        
          const CarsFiltered=await feature.databaseQuery
         
         //  const AllCar=await Car.find();
