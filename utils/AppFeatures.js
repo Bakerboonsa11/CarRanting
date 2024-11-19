@@ -23,9 +23,11 @@ class AppFeatures{
 
      this.databaseQuery.sort("-createdAt")
     }
-  
+    else{
     const sortBy=this.queryString.sort.split(',').join(' ')
     this.databaseQuery.sort(`-${sortBy}`)
+    }
+    
      return this
 
   }

@@ -6,6 +6,8 @@ const Router=express.Router();
 // STATICS DATA CAR ROUTES
 Router.route('/top-3-cheapCar')
 .get(carController.getTopCar,carController.getAllCar)
+Router.route('/getCarStat')
+.get(carController.getCarStat)
 
 
 

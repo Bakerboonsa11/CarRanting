@@ -13,6 +13,28 @@ exports.getTopCar=(req,res,next)=>{
       next()
 }
 
+exports.getCarStat=async(req,res)=>{
+  const stat= await Car.aggregate([
+    {
+      $match:{fuelType:"Gas"}  
+    },
+    {
+        $group:{
+          _id:{$toUpper:'$color'},
+          numCar:{$sum:1},
+          avragePrice:{$avg:"$pricePerDay"},
+          minPrice:{$min:"pricePerDay"},
+          maxPrice:{$max:"$pricePerDay"}
+        }
+    }
+  ])
+
+res.status(200).json({
+    length:stat.length,
+    stats:stat
+    
+})
+}
 exports.getAllCar=async(req,res)=>{
     try{
          const query=req.query
