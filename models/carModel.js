@@ -3,13 +3,17 @@ const mongoose=require("mongoose");
 const carSchema=new mongoose.Schema({
   name:{
     type:String,
-    required:true,
-    unique:true
+    required:[true,"name is required"],
+    maxlength:[30,"maximum name length is 50"],
+    minlength:[3,"minLength is 3"],
+
+    unique:true,
+    trim:true
   }
     ,
   make:{
     type:String,
-    required:true
+    required:[,'maker is required']
   },
   year:{
     type:Number,
@@ -19,6 +23,17 @@ const carSchema=new mongoose.Schema({
   pricePerDay:{
     type:Number,
     required:true
+  },
+  RatingQuantity:{
+    type:Number,
+    required:true
+  },
+  RatingAvrg:{
+    type:Number,
+    min:[1.0,"minimum is 1"],
+    max:[5.0,"maximum is 5"],
+    default:4.5,
+    set:val=>Math.round(val*10)/10
   }
   ,
   mileage:{
