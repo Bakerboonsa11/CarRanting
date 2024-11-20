@@ -1,6 +1,7 @@
 const express=require('express');
 const CarRoute=require('./routers/carRoute')
 const morgan = require('morgan');
+const errorController=require("./controllers/errorController")
 
 const App =express()
 // morgan midlware used to log request info
@@ -21,14 +22,7 @@ App.use("/",(req,res)=>{
 
 
 
-App.use((error,req,res,next)=>{
-  console.log("its also entered app error")
-  // const {message,statusCode,status,} ={...error}
-
-  res.status("404").json({
-    error:error.message
-  })
-})
+App.use(errorController);
 
 module.exports=App
 

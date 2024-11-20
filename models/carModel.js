@@ -2,15 +2,21 @@ const mongoose=require("mongoose");
 const slugify=require('slugify')
 const carSchema=new mongoose.Schema({
   name:{
-    type:String,
+    type:[String,"name must be string "],
     required:[true,"name is required"],
     maxlength:[30,"maximum name length is 50"],
     minlength:[3,"minLength is 3"],
-
+     validate: {
+      validator: function (val) {
+        return validator.isAlpha(val); // Ensure the value contains only letters
+      },
+      message: 'Name must only contain letters', // Error message
+    },
     unique:true,
     trim:true
-  }
-    ,
+  },
+ 
+    
   make:{
     type:String,
     required:[,'maker is required']
@@ -59,7 +65,7 @@ const carSchema=new mongoose.Schema({
 carSchema.pre("save",(next)=>{
   if(!this.slug){
     // create slugify
-    this.slug=slugify(this.name,{lower:true})
+    this.slug=slugify(`${this.name}`,{lower:true})
   }
   next()
 })

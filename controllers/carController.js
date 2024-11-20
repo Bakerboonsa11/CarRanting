@@ -35,21 +35,17 @@ res.status(200).json({
     
 })
 }
-exports.getAllCar=async(req,res,next)=>{
-    try{
-         const query=req.query
-       
-         const feature=new AppFeatures(Car.find(),req.query).filter().sort().fields().pagination();
-      
-         const CarsFiltered=await feature.databaseQuery
+exports.getAllCar=catchAsync(async(req,res,next)=>{
+  
         
-      
-         if(!CarsFiltered){
-            // return res.status('404').json({
-            //     status:"fail",
-            //     message:"there is no any car"
-            // })
+         const feature=new AppFeatures(Car.find(),req.query)
+         .filter()
+         .sort()
+         .fields()
+         .pagination();
+         const CarsFiltered=await feature.databaseQuery
 
+         if(!CarsFiltered){
             return next(new AppError("there is no any data",404))
          }
 
@@ -58,13 +54,9 @@ exports.getAllCar=async(req,res,next)=>{
             length:CarsFiltered.length,
             cars:CarsFiltered
         })
-    }
-    catch(error){
-         console.log(error)
-    }
- 
+})
 
-}
+
 exports.getOneCar=catchAsync(async(req,res,next)=>{
    
         const car=await Car.findById(req.params.id)
@@ -81,23 +73,16 @@ exports.getOneCar=catchAsync(async(req,res,next)=>{
         })
     
 }) 
-exports.createCar=async(req,res,next)=>{
-try{
+exports.createCar= catchAsync(async(req,res,next)=>{
 
 const createdCar=await Car.create(req.body)
 
   res.status(200).json({
     carCreated:createdCar
   })
-}
-catch(error){
-  next(error.message)
-}
-}
+})
 
-exports.updateCar=async(req,res,next)=>{
-    try{
-    
+exports.updateCar=catchAsync(async(req,res,next)=>{
         const updatedUser= await Car.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
         if(!updatedUser){
             // throw new Error("there is no car with this info to update")
@@ -107,25 +92,18 @@ exports.updateCar=async(req,res,next)=>{
       res.status(200).json({
         updatedUser:updatedUser
       })
-    }
-    catch(next){}
+    
+}) 
 
-}
-
-exports.deleteCar=async(req,res,next)=>{
-    try{
+exports.deleteCar=catchAsync(async(req,res,next)=>{
+ 
        const doc= await Car.findByIdAndDelete(req.params.id)
        if(!doc){
     //    throw new Error("there is no car with this info to delete")
-       return next( new AppError("there is no car with there is no car with this info to delete info to update",404) ) 
+       return next( new AppError(" there is no car with this info to delete info to update",404) ) 
        }
         res.status(200).json({
             status:"success",
             message:"car is deleted succesfully"
         })
-    }
-    catch(error){
-
-    }
-  
-}
+})
