@@ -2,7 +2,7 @@ const Car=require('./../models/carModel');
 const AppFeatures=require("./../utils/AppFeatures")
 // const AppError=require("./../utils/AppError")
 const AppError=require("./../utils/AppError")
-
+const catchAsync=require("./../utils/asyncError")
 
 exports.getTopCar=(req,res,next)=>{
       req.query.pricePerDay=50;
@@ -35,7 +35,7 @@ res.status(200).json({
     
 })
 }
-exports.getAllCar=async(req,res)=>{
+exports.getAllCar=async(req,res,next)=>{
     try{
          const query=req.query
        
@@ -45,10 +45,12 @@ exports.getAllCar=async(req,res)=>{
         
       
          if(!CarsFiltered){
-            return res.status('404').json({
-                status:"fail",
-                message:"there is no any car"
-            })
+            // return res.status('404').json({
+            //     status:"fail",
+            //     message:"there is no any car"
+            // })
+
+            return next(new AppError("there is no any data",404))
          }
 
         res.status(200).json({
@@ -63,8 +65,8 @@ exports.getAllCar=async(req,res)=>{
  
 
 }
-exports.getOneCar=async(req,res,next)=>{
-    try{
+exports.getOneCar=catchAsync(async(req,res,next)=>{
+   
         const car=await Car.findById(req.params.id)
         if(!car){
           return next( new AppError("there is no car with this id",404) ) 
@@ -77,13 +79,8 @@ exports.getOneCar=async(req,res,next)=>{
                 car
             }
         })
-    }
-    catch(error){
-        console.log('its entered a catch block')
-        console.log(error.message)
-        next(error.message)
-    }
-}
+    
+}) 
 exports.createCar=async(req,res,next)=>{
 try{
 
@@ -111,10 +108,7 @@ exports.updateCar=async(req,res,next)=>{
         updatedUser:updatedUser
       })
     }
-    catch(error){
-       console.log(error.message)
-       next(error.message)
-    }
+    catch(next){}
 
 }
 
@@ -131,8 +125,7 @@ exports.deleteCar=async(req,res,next)=>{
         })
     }
     catch(error){
-       console.log(error)
-       next(error.message)
+
     }
   
 }

@@ -23,11 +23,9 @@ App.use("/",(req,res)=>{
 
 App.use((error,req,res,next)=>{
   console.log("its also entered app error")
-  const {message,statusCode,status,} ={...error}
-  console.log(message,statusCode,status)
- console.log(error)
-  res.status(statusCode).json({
-    status:status,
+  // const {message,statusCode,status,} ={...error}
+
+  res.status("404").json({
     error:error.message
   })
 })
