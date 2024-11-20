@@ -1,5 +1,5 @@
 const mongoose=require("mongoose");
-
+const slugify=require('slugify')
 const carSchema=new mongoose.Schema({
   name:{
     type:String,
@@ -56,7 +56,23 @@ const carSchema=new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }, // Date the car was added
   updatedAt: { type: Date, default: Date.now }, // Date when the car details were last updated
 })
+carSchema.pre("save",(next)=>{
+  if(!this.slug){
+    // create slugify
+    this.slug=slugify(this.name,{lower:true})
+  }
+  next()
+})
 
+carSchema.pre(/^find/,function(next){
+  this.startQueryDate=Date.now()
+  next()
+})
+
+carSchema.post(/^find/,function(docs,next){
+      console.log(`the time it takes is ${ this.TimeItTake=Date.now()-this.startQueryDate} milisecond`)
+      next()
+})
 const Car =mongoose.model("Car",carSchema)
 
 module.exports=Car

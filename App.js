@@ -21,7 +21,14 @@ App.use("/",(req,res)=>{
 
 
 
-
+App.use((error,req,res,next)=>{
+  console.log("its also entered app error")
+  console.log('again',error.meassage)
+  res.status(404).json({
+    status:"fail",
+    error
+  })
+})
 
 module.exports=App
 
