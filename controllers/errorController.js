@@ -77,7 +77,7 @@ module.exports=errorController
 
 
 
-//  if(error.code===11000) error=handledePlicateErrorDB(error) 
+ if(error.code===11000) error=handledePlicateErrorDB(error) 
 //       if(error.name==="ValidationError")  error=handleValidationErrorDB(error) 
 //       if(error.name==='JsonWebTokenError') error=handleJwtError(error)
 //       if(error.name==="TokenExpiredError") error=hadleJwtexpired(error)
