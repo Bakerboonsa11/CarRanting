@@ -23,10 +23,12 @@ App.use("/",(req,res)=>{
 
 App.use((error,req,res,next)=>{
   console.log("its also entered app error")
-  console.log('again',error.meassage)
-  res.status(404).json({
-    status:"fail",
-    error
+  const {message,statusCode,status,} ={...error}
+  console.log(message,statusCode,status)
+ console.log(error)
+  res.status(statusCode).json({
+    status:status,
+    error:error.message
   })
 })
 

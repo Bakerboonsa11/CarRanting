@@ -67,7 +67,8 @@ exports.getOneCar=async(req,res,next)=>{
     try{
         const car=await Car.findById(req.params.id)
         if(!car){
-         throw new Error("there is no car with this id")
+          return next( new AppError("there is no car with this id",404) ) 
+        //  throw new Error("there is no car with this id")
         }
 
         res.status(200).json({
@@ -102,7 +103,8 @@ exports.updateCar=async(req,res,next)=>{
     
         const updatedUser= await Car.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
         if(!updatedUser){
-            throw new Error("there is no car with this info to update")
+            // throw new Error("there is no car with this info to update")
+            return next( new AppError("there is no car with this info to update",404) ) 
         }
 
       res.status(200).json({
@@ -120,7 +122,8 @@ exports.deleteCar=async(req,res,next)=>{
     try{
        const doc= await Car.findByIdAndDelete(req.params.id)
        if(!doc){
-       throw new Error("there is no car with this info to delete")
+    //    throw new Error("there is no car with this info to delete")
+       return next( new AppError("there is no car with there is no car with this info to delete info to update",404) ) 
        }
         res.status(200).json({
             status:"success",
