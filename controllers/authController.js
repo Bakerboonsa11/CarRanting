@@ -95,3 +95,18 @@ exports.IsLOggedIn=catchAsync(async(req,res,next)=>{
    next()
 })
 
+exports.ForgetPassword=catchAsync(async(req,res,next)=>{
+  const email=req.body.email
+  if(!email) next(new AppError("please provide email",400))
+
+  const user=await User.findOne(email)
+  if(!user) next(new AppError("there is no user with this email"),400)
+
+  // create new reset token
+  const resetPassword=user.createResetPassword()
+  const URL =`${req.protocol}://${req.get("host")}/api/v1/user/ForgetPassword/:${resetPassword}`
+  const message=`if you forget password please click ${Url}`;
+
+
+  // send email
+})

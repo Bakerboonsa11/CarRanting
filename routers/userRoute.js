@@ -7,7 +7,7 @@ const authController=require("./../controllers/authController")
 
 Router.post('/signUp',authController.signUp)
 Router.post('/signIn',authController.signIn)
-Router.get("/islogedin",authController.IsLOggedIn)
+Router.post("/ForgetPassword",authController.ForgetPassword)
 Router.route('/')
 .get(authController.IsLOggedIn,userController.getUsers)
 .post(userController.createUser)

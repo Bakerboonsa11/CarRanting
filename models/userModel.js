@@ -3,6 +3,7 @@ const { validate } = require('./carModel');
 const validator=require('validator');
 const AppError = require('../utils/AppError');
 const bcrypt=require("bcrypt")
+const crypto=require("crypto")
 const userSchema= new mongoose.Schema({
      name:{
         type:String,
@@ -79,7 +80,13 @@ userSchema.methods.ispasswordUpdated=function(iat){
   }
     
 }
+userSchema.methods.createResetPassword=function(){
+  const random_token=crypto.randomBytes(32).toString("hex")
+  this.resetPassword=crypto.createHash("sha256").update(random_token).digest("hex")
+  this.expireResetPassword=Date.now()+10*60*1000
 
+  return random_token
+}
 const User=mongoose.model("User",userSchema)
 
 module.exports=User
