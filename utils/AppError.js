@@ -8,6 +8,8 @@ class AppError extends  Error{
          this.isOperational=true
          Error.captureStackTrace(this)
     }
+
+
 }
 
 module.exports=AppError

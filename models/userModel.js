@@ -1,6 +1,7 @@
 const mongoose=require('mongoose');
 const { validate } = require('./carModel');
-const validator=require('validator')
+const validator=require('validator');
+const AppError = require('../utils/AppError');
 const userSchema= new mongoose.Schema({
      name:{
         type:String,
@@ -25,12 +26,7 @@ const userSchema= new mongoose.Schema({
     confirmPassword:{
         type:String,
         required:[true,'please confirm the password'],
-        validate:{
-            validator:(confirmPassword)=>{
-               return confirmPassword===this.password
-            },
-            message:"confirm password must match the password"
-        }
+       
     },
     roles:{
         type:String,
@@ -47,9 +43,26 @@ const userSchema= new mongoose.Schema({
     // select:false
    }
 })
+userSchema.pre("save", function (next) {
+  // Only run this validation if the password is being created or modified
+  if (!this.isModified("password") && !this.isNew) {
+    return next(); // Skip if not modifying password
+  }
+
+  // Check if password and confirmPassword match
+  if (this.password !== this.confirmPassword) {
+    return next(new AppError("Please provide the same password", 400));
+  }
+
+  // Ensure confirmPassword is not saved in the database
+  this.confirmPassword = undefined;
+  next();
+});
 
 
+const User=mongoose.model("User",userSchema)
 
+module.exports=User
 
 
 

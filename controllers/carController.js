@@ -83,14 +83,14 @@ const createdCar=await Car.create(req.body)
 })
 
 exports.updateCar=catchAsync(async(req,res,next)=>{
-        const updatedUser= await Car.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
-        if(!updatedUser){
+        const updatedCar= await Car.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
+        if(!updatedCar){
             // throw new Error("there is no car with this info to update")
             return next( new AppError("there is no car with this info to update",404) ) 
         }
 
       res.status(200).json({
-        updatedUser:updatedUser
+        updatedUser:updatedCar
       })
     
 }) 
