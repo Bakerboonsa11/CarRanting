@@ -77,7 +77,9 @@ exports.IsLOggedIn=catchAsync(async(req,res,next)=>{
     token =req.cookie.jwt
   }
   console.log(token)
-
+  if(!token){
+    return next(new AppError("plesase log in first",400))
+  }
   const decoded=jwt.verify(token.split(" ")[1],process.env.SEC_WORD)
   const user = await User.findById(decoded.id)
   if(!user){
@@ -90,9 +92,6 @@ exports.IsLOggedIn=catchAsync(async(req,res,next)=>{
   console.log(decoded.id)
   
   req.user=user;
-   res.status(200).json({
-    status:"success",
-    user:req.user
-   })
+   next()
 })
 

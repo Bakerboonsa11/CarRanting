@@ -9,7 +9,7 @@ Router.post('/signUp',authController.signUp)
 Router.post('/signIn',authController.signIn)
 Router.get("/islogedin",authController.IsLOggedIn)
 Router.route('/')
-.get(userController.getUsers)
+.get(authController.IsLOggedIn,userController.getUsers)
 .post(userController.createUser)
 
 Router.route('/:id')

@@ -68,8 +68,7 @@ userSchema.methods.correctPassword=async function(candidatePassword,userPassword
   return bcrypt.compare(candidatePassword,userPassword)
 }
 userSchema.methods.ispasswordUpdated=function(iat){
-     console.log(this.changedPasswordAt,iat)
-     console.log(this.changedPasswordAt>iat)
+
   if(this.changedPasswordAt){
        const newchangedPasswordAt= parseInt(this.changedPasswordAt.getTime()/1000,10)
 
