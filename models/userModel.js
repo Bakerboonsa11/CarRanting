@@ -2,6 +2,7 @@ const mongoose=require('mongoose');
 const { validate } = require('./carModel');
 const validator=require('validator');
 const AppError = require('../utils/AppError');
+const bcrypt=require("bcrypt")
 const userSchema= new mongoose.Schema({
      name:{
         type:String,
@@ -34,7 +35,7 @@ const userSchema= new mongoose.Schema({
         default:"user"
     },
 
-  changedPasswordAt:Date,
+   changedPasswordAt:Date,
    resetPassword:String,
    expireResetPassword:Date,
    isActive:{
@@ -43,7 +44,7 @@ const userSchema= new mongoose.Schema({
     // select:false
    }
 })
-userSchema.pre("save", function (next) {
+userSchema.pre("save", async function (next) {
   // Only run this validation if the password is being created or modified
   if (!this.isModified("password") && !this.isNew) {
     return next(); // Skip if not modifying password
@@ -53,11 +54,19 @@ userSchema.pre("save", function (next) {
   if (this.password !== this.confirmPassword) {
     return next(new AppError("Please provide the same password", 400));
   }
-
+  this.password=await bcrypt.hash(this.password,12)
+  console.log(this.password)
   // Ensure confirmPassword is not saved in the database
   this.confirmPassword = undefined;
   next();
 });
+
+
+//SCHEMA METHODS
+
+userSchema.methods.correctPassword=async function(candidatePassword,userPassword){
+  return bcrypt.compare(candidatePassword,userPassword)
+}
 
 
 const User=mongoose.model("User",userSchema)

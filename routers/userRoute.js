@@ -2,7 +2,11 @@ const express=require('express');
 
 const Router=express.Router()
 const userController=require("./../controllers/userController")
+const authController=require("./../controllers/authController")
+//  AUTH ROUTES
 
+Router.post('/signUp',authController.signUp)
+Router.post('/signIn',authController.signIn)
 Router.route('/')
 .get(userController.getUsers)
 .post(userController.createUser)
