@@ -62,5 +62,37 @@ exports.signIn=catchAsync(async(req,res,next)=>{
  }
 
  createToken(user,res)
- 
+
 })
+
+exports.IsLOggedIn=catchAsync(async(req,res,next)=>{
+  // fist take the token from the requesat for both the cookies and the API test
+  console.log("entered")
+  let token;
+  
+  if(req.headers.authorization && req.headers.authorization.startsWith("Bearer") ){
+    token=req.headers.authorization
+  }
+  else if(req.cookie && req.cookie.jwt){
+    token =req.cookie.jwt
+  }
+  console.log(token)
+
+  const decoded=jwt.verify(token.split(" ")[1],process.env.SEC_WORD)
+  const user = await User.findById(decoded.id)
+  if(!user){
+    return next(new AppError("you are not logged in please login first",400))
+  }
+  console.log(user.ispasswordUpdated(decoded.iat))
+  if(user.ispasswordUpdated(decoded.iat)){
+    return next(new AppError("you changed password please login again",404))
+  }
+  console.log(decoded.id)
+  
+  req.user=user;
+   res.status(200).json({
+    status:"success",
+    user:req.user
+   })
+})
+

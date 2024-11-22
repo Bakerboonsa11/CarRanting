@@ -67,7 +67,19 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.correctPassword=async function(candidatePassword,userPassword){
   return bcrypt.compare(candidatePassword,userPassword)
 }
+userSchema.methods.ispasswordUpdated=function(iat){
+     console.log(this.changedPasswordAt,iat)
+     console.log(this.changedPasswordAt>iat)
+  if(this.changedPasswordAt){
+       const newchangedPasswordAt= parseInt(this.changedPasswordAt.getTime()/1000,10)
 
+       return newchangedPasswordAt>iat
+  }
+  else{
+      return false
+  }
+    
+}
 
 const User=mongoose.model("User",userSchema)
 
