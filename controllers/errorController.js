@@ -56,6 +56,8 @@ const sendDevelopmentError=(error)=>{
    
 }
 
+const handleJwtError=(error)=>new AppError("invalid token please login again",401)
+const hadleJwtexpired=()=> new AppError('the token is expired please log in again',401)
 
 if(process.env.NODENV==="production"){
 
@@ -68,6 +70,8 @@ else if (process.env.NODENV==="development"){
   if(error.name==="CastError") error=CastError(error)
   if(error.code===11000) error=handledePlicateErrorDB(error)
   if(error.name==="ValidationError") error=ValidationError(error)
+  if(error.name==='JsonWebTokenError') error=handleJwtError(error)
+  if(error.name==="TokenExpiredError") error=hadleJwtexpired(error)
   sendDevelopmentError(error)
  }
 }
