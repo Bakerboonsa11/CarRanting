@@ -13,6 +13,7 @@ return jwt.sign({id},process.env.SEC_WORD,{expiresIn:process.env.EXPIRE_TIME})
 }
 
 createToken=(user,res)=>{
+  console.log("entered token creater")
    const cookiesOptions={
     expires:new Date(Date.now()+process.env.COOKIES_EXPIRE)*24*60*60*1000
      ,
@@ -21,7 +22,7 @@ createToken=(user,res)=>{
   
  if(process.env.NODE_ENV==="production") cookiesOptions.secure=true
   const token =signtoken(user.id)
-
+  console.log(token,"is this token")
   res.cookie("jwt",token, {
             httpOnly: true,         // Prevents JavaScript access to the cookie
             secure: process.env.NODE_ENV === 'production', // Sends only over HTTPS in production
@@ -58,11 +59,12 @@ exports.signIn=catchAsync(async(req,res,next)=>{
   if(!email||!password) {
     return next(new AppError("please provide the email or password",400))
   }
- const user=await User.findOne({email})
-  console.log(user)
+ const user=await User.findOne({email}).select("+password")
+
  if(!user || !await user.correctPassword(password,user.password)){
      return next(new AppError("incorrct password or email",400))
  }
+  console.log(user, "is UserActivation")
 
  createToken(user,res)
 
@@ -79,7 +81,7 @@ exports.IsLOggedIn=catchAsync(async(req,res,next)=>{
   else if(req.cookie && req.cookie.jwt){
     token =req.cookie.jwt
   }
-  console.log(token)
+  console.log(token,"token")
   if(!token){
     return next(new AppError("plesase log in first",400))
   }
@@ -92,9 +94,10 @@ exports.IsLOggedIn=catchAsync(async(req,res,next)=>{
   if(user.ispasswordUpdated(decoded.iat)){
     return next(new AppError("you changed password please login again",404))
   }
-  console.log(decoded.id)
+  console.log(decoded.id,"decoded id")
   
   req.user=user;
+  console.log(req.user,"is this")
    next()
 })
 
@@ -183,16 +186,18 @@ exports.restPassword=catchAsync(async(req,res,next)=>{
 exports.updatePassword=catchAsync(async(req,res,next)=>{
     //  first get loged in user from the request
    
-    console.log("entered")
+    
     const user=await User.findById(req.user.id).select("+password");
     if(!user){
       return next(new AppError("please log in first",400))
     }
-    
-    if(! await user.correctPassword(req.user.password,req.body.password)){
+     console.log(user,"update user")
+     
+     console.log(await user.correctPassword(req.body.password,user.password))
+    if(! await user.correctPassword(req.body.password,user.password)){
       return next(new AppError("incorrect password",400))
     }
-
+  
     user.password=req.body.currentPassword
     user.confirmPassword=req.body.confirmPassword
     user.changedPasswordAt=Date.now()
