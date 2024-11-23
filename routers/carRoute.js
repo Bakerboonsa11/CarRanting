@@ -1,8 +1,8 @@
 const express=require('express');
 const carController=require('./../controllers/carController')
-
+ const ReviewRoute= require("./reviewRoute")
 const Router=express.Router();
-
+Router.use("/Review",ReviewRoute);
 // STATICS DATA CAR ROUTES
 Router.route('/top-3-cheapCar')
 .get(carController.getTopCar,carController.getAllCar)
