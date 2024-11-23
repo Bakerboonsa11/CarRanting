@@ -181,5 +181,25 @@ exports.restPassword=catchAsync(async(req,res,next)=>{
 })
 
 exports.updatePassword=catchAsync(async(req,res,next)=>{
-    //  
+    //  first get loged in user from the request
+   
+    console.log("entered")
+    const user=await User.findById(req.user.id).select("+password");
+    if(!user){
+      return next(new AppError("please log in first",400))
+    }
+    
+    if(! await user.correctPassword(req.user.password,req.body.password)){
+      return next(new AppError("incorrect password",400))
+    }
+
+    user.password=req.body.currentPassword
+    user.confirmPassword=req.body.confirmPassword
+    user.changedPasswordAt=Date.now()
+    await user.save()
+    createToken(user,res)
+    // find the user by the id 
+    // change the password within data in the body
+    // assign the date.now for the user 
+
 })
