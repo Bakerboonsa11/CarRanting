@@ -4,7 +4,8 @@ const carController=require('./../controllers/carController')
  const authController=require("./../controllers/authController")
 
 const Router=express.Router();
-Router.use("/:carId/Review",ReviewRoute);
+Router.use("/:carId/Review", ReviewRoute);
+
 // STATICS DATA CAR ROUTES
 Router.route('/top-3-cheapCar')
 .get(authController.protect,authController.strictTo("admin"),carController.getTopCar,carController.getAllCar)

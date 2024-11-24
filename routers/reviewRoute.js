@@ -1,8 +1,10 @@
 const express=require("express")
 const reviewController=require('./../controllers/reviewCOntroller')
-const Router=express.Router()
+const authController=require('./../controllers/authController')
+const Router=express.Router({mergeParams:true})
 
 Router.route('/')
+.post(authController.protect,reviewController.createReviewForCar)
 .get(reviewController.getAllReview)
 
 

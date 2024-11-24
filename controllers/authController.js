@@ -183,7 +183,7 @@ exports.updatePassword=catchAsync(async(req,res,next)=>{
 exports.protect= catchAsync(async(req,res,next)=>{
    let token;
    // check if the header exist and start with bearer
- 
+  console.log(req.params)
    console.log('protect is wrunnung')
 if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
   token = req.headers.authorization.split(' ')[1];
