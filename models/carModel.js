@@ -1,20 +1,23 @@
 const mongoose=require("mongoose");
 const slugify=require('slugify')
+const validator = require('validator');
+
 const carSchema=new mongoose.Schema({
-  name:{
-    type:[String,"name must be string "],
-    required:[true,"name is required"],
-    maxlength:[30,"maximum name length is 50"],
-    minlength:[3,"minLength is 3"],
-     validate: {
-      validator: function (val) {
-        return validator.isAlpha(val); // Ensure the value contains only letters
-      },
-      message: 'Name must only contain letters', // Error message
+name: {
+  type: String, // Fix type to String
+  required: [true, "Name is required"],
+  maxlength: [30, "Maximum name length is 30"], // Corrected to match the defined maximum
+  minlength: [3, "Minimum name length is 3"],
+  validate: {
+    validator: function (val) {
+      return validator.isAlpha(val, 'en-US', { ignore: ' ' }); // Allow letters and spaces
     },
-    unique:true,
-    trim:true
+    message: 'Name must only contain letters', // Error message
   },
+  unique: true,
+  trim: true,
+}
+,
  
     
   make:{

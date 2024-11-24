@@ -6,7 +6,7 @@ const catchAsync=require("./../utils/asyncError")
 const jwt=require("jsonwebtoken")
 const sendEmail=require("./../utils/sendEmail")
 const crypto=require("crypto")
-
+const {promisify}=require('util')
 
 signtoken=(id)=>{
 return jwt.sign({id},process.env.SEC_WORD,{expiresIn:process.env.EXPIRE_TIME})
@@ -70,36 +70,7 @@ exports.signIn=catchAsync(async(req,res,next)=>{
 
 })
 
-exports.IsLOggedIn=catchAsync(async(req,res,next)=>{
-  // fist take the token from the requesat for both the cookies and the API test
-  console.log("entered")
-  let token;
-  
-  if(req.headers.authorization && req.headers.authorization.startsWith("Bearer") ){
-    token=req.headers.authorization
-  }
-  else if(req.cookie && req.cookie.jwt){
-    token =req.cookie.jwt
-  }
-  console.log(token,"token")
-  if(!token){
-    return next(new AppError("plesase log in first",400))
-  }
-  const decoded=jwt.verify(token.split(" ")[1],process.env.SEC_WORD)
-  const user = await User.findById(decoded.id)
-  if(!user){
-    return next(new AppError("you are not logged in please login first",400))
-  }
-  console.log(user.ispasswordUpdated(decoded.iat))
-  if(user.ispasswordUpdated(decoded.iat)){
-    return next(new AppError("you changed password please login again",404))
-  }
-  console.log(decoded.id,"decoded id")
-  
-  req.user=user;
-  console.log(req.user,"is this")
-   next()
-})
+
 
 exports.ForgetPassword=catchAsync(async(req,res,next)=>{
 
@@ -208,3 +179,74 @@ exports.updatePassword=catchAsync(async(req,res,next)=>{
     // assign the date.now for the user 
 
 })
+
+exports.protect= catchAsync(async(req,res,next)=>{
+   let token;
+   // check if the header exist and start with bearer
+ 
+   console.log('protect is wrunnung')
+if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+  token = req.headers.authorization.split(' ')[1];
+  
+}
+else if(req.cookies.jwt){
+   token=req.cookies.jwt
+}
+
+if (!token || token === 'null') {
+   console.log('protect is wranningunnung')
+  return next(new AppError('You are not logged in! Please log in to get access.', 401));
+}
+
+      
+   // verify the token 
+   const decoded= await promisify(jwt.verify)(token,process.env.SEC_WORD)
+   console.log(decoded)
+   // check weather a user is still exist 
+   const freshUser= await User.findById(decoded.id)
+   console.log("the fresh user is ",freshUser)
+   if(!freshUser){
+      return next(new AppError("the user blonging to this token does not exist"),401)
+   }
+   console.log(decoded.iat)
+   if(freshUser.ispasswordUpdated(decoded.iat)){
+       return next(new AppError("user changed a password pleaselogin again"),401)
+    };
+
+    req.user=freshUser
+    res.locals.user=freshUser
+   next()
+});
+exports.isLogedIn= async (req,res,next)=>{
+      //  first check if there is cookies in the browser
+      if(req.cookies.jwt ||req.headers.authorization.startsWith('Bearer') ){
+         // if cookies exist verify weather it is correct 
+         const decoded= await promisify(jwt.verify)(req.cookies.jwt,process.env.SEC_WORD)
+      
+         const user= await User.findById(decoded.id)
+ 
+       if(!user){
+         return next()
+       }
+
+       if(user.passwordChanged(decoded.iat)){
+           return next()
+       }
+      
+      res.locals.user=user
+       return next()
+
+      }
+      next()
+}
+
+exports.strictTo = (...roles) => {
+    console.log('Entered restrict middleware');
+    return (req, res, next) => {
+        console.log('User in strictTo:', req.user);
+        if (!req.user || !roles.includes(req.user.roles)) {
+            return next(new AppError('You do not have permission to perform this action', 403));
+        }
+        next();
+    };
+};

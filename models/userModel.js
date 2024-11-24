@@ -63,6 +63,7 @@ userSchema.pre("save", async function (next) {
 });
 
 
+
 //SCHEMA METHODS
 
 userSchema.methods.correctPassword=async function(candidatePassword,userPassword){

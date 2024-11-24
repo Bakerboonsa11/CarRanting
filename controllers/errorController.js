@@ -9,11 +9,18 @@ const CastError=(error)=>{
     const message=`invalid${error.path} "" ${error.value}`
     return new AppError(message,400)
 }
-const ValidationError=(error)=>{
-   const errors=Object.values(error.errors).map(el=>el.message)
-   const message=`invalid input data ${errors.join('.')}`
-   return new AppError(message,400)
-}
+const ValidationError = (error) => {
+  console.log(error)
+   if (!error.errors) {
+      console.error("The error object doesn't contain 'errors'");
+      return new AppError("An unexpected validation error occurred", 400);
+   }
+
+   const errors = Object.values(error.errors).map((el) => el.message);
+   const message = `Invalid input data: ${errors.join('. ')}`;
+   return new AppError(message, 400);
+};
+
 
 const handledePlicateErrorDB=(error)=>{
 
