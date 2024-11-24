@@ -7,6 +7,7 @@ const authController=require("./../controllers/authController")
 
 Router.post('/signUp',authController.signUp)
 Router.post('/signIn',authController.signIn)
+Router.patch('/updateMe',authController.protect,userController.updateMe)
 Router.post("/ForgetPassword",authController.ForgetPassword)
 Router.post("/forgetPassword/:reset_password",authController.restPassword)
 Router.patch("/updatePassword",authController.protect,authController.updatePassword)
