@@ -4,8 +4,10 @@ const authController=require('./../controllers/authController')
 const Router=express.Router({mergeParams:true})
 
 Router.route('/')
-.post(authController.protect,reviewController.createReviewForCar)
+.post(authController.protect,authController.strictTo("user"),reviewController.createReviewForCar)
 .get(reviewController.getAllReview)
 
 
+Router.route('/:id')
+.delete(reviewController.deleteReview)
 module.exports=Router
