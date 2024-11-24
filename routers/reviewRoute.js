@@ -13,3 +13,6 @@ Router.route('/:id')
 .patch(authController.strictTo("admin","user"),reviewController.updateReview)
 .get(authController.strictTo("admin","user"),reviewController.getReview)
 module.exports=Router
+
+
+// 
