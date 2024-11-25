@@ -14,13 +14,21 @@ App.use(express.urlencoded({ extended: true }));
 App.use("/api/v1/car",CarRoute)
 App.use("/api/v1/user",UseRoute)
 
-App.use("/",(req,res)=>{
+
+
+
+App.get("/",(req,res)=>{
   res.status(200).json({
     meassage:"app is avaliable"
   })
 })
 
-
+App.all("*",(req,res,next)=>{
+   res.status(400).json({
+    status:"error",
+    data:'error page'
+   })
+})
 
 
 App.use(errorController);
