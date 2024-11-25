@@ -90,6 +90,7 @@ reviewSchema.post(/^findOneAnd/,async function(){
   console.log('also ........')
   await this.r.constructor.calculateRatingAvrage(this.r.car)
 })
+reviewSchema.index({car:1,user:1},{unique:true})
 const Review= mongoose.model("Review",reviewSchema)
 
 module.exports=Review
