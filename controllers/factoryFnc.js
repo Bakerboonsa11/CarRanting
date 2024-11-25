@@ -25,6 +25,7 @@ exports.deleteOne=(Model)=>catchAsync(async(req,res,next)=>{
 })
 
 exports.updateOne=(Model)=>catchAsync((async(req,res,next)=>{
+  console.log("entered update page")
    const updatedInstance=await Model.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
      if(!updatedInstance){
       return next(new AppError("there is no user with this info to update",404))
@@ -37,9 +38,10 @@ exports.updateOne=(Model)=>catchAsync((async(req,res,next)=>{
 }))
 
 exports.getOne=(Model)=>catchAsync(async(req,res,next)=>{
+  console.log("entered get one ")
     const GetedInstance = await Model.findById(req.params.id);
     if(!GetedInstance){
-      return next(new AppError("there is no user with this is"),404)
+      return next(new AppError("there is no data with this is"),404)
     }
 
     res.status(200).json({

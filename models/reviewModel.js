@@ -1,5 +1,7 @@
 const mongoose=require("mongoose");
 const User = require("./userModel");
+const Car = require("./carModel");
+const catchAsync=require("./../utils/asyncError")
 
 
 const reviewSchema= new mongoose.Schema({
@@ -30,6 +32,64 @@ const reviewSchema= new mongoose.Schema({
       }
 })
 
+
+reviewSchema.statics.calculateRatingAvrage = async function (carId) {
+  try {
+    console.log("entered aggregation");
+    const ratingCalculation = await this.aggregate([
+      {
+        $match: {
+          car: carId, // Fixed the field name to `car` (assuming your reviews reference a car with `carId`)
+        },
+      },
+      {
+        $group: {
+          _id: carId,
+          ratingQuantity: { $sum: 1 }, // Count the total number of reviews
+          ratingAv: { $avg: "$rating" }, // Calculate the average rating
+        },
+      },
+    ]);
+
+    if (ratingCalculation.length === 0) {
+      // No reviews found for the car
+      await Car.findByIdAndUpdate(carId, {
+        RatingQuantity: 0,
+        RatingAvrg: 4.5, // Default average rating
+      });
+    } else {
+      // Update the car with the calculated rating stats
+      await Car.findByIdAndUpdate(carId, {
+        RatingQuantity: ratingCalculation[0].ratingQuantity,
+        RatingAvrg: ratingCalculation[0].ratingAv,
+      });
+    }
+  } catch (err) {
+    console.error(err); // Log the error
+  }
+};
+
+
+reviewSchema.post('save',function(){
+  console.log("pre is wrning")
+  this.constructor.calculateRatingAvrage(this.car)
+})
+
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  console.log("Entered pre findOneAnd middleware");
+
+  // Find the document being updated/deleted
+  this.r = await this.model.findOne(this.getFilter());
+  console.log("Document found:", this.r);
+
+  next();
+});
+
+
+reviewSchema.post(/^findOneAnd/,async function(){
+  console.log('also ........')
+  await this.r.constructor.calculateRatingAvrage(this.r.car)
+})
 const Review= mongoose.model("Review",reviewSchema)
 
 module.exports=Review

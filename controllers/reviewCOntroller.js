@@ -21,7 +21,13 @@ exports.createReviewForCar=catchAsync(async(req,res,next)=>{
         req.body.car=req.params.carId
     }
     console.log(req.body);
-   const review=await Review.create(req.body)
+  
+         const review=await Review.create(req.body)
+    
+  
+    
+    
+  
    console.log(review)
    if(!review) {
     return next(new AppError("review is not created do to some issue",400))
