@@ -12,28 +12,22 @@ signtoken=(id)=>{
 return jwt.sign({id},process.env.SEC_WORD,{expiresIn:process.env.EXPIRE_TIME})
 }
 
-createToken=(user,res)=>{
-  console.log("entered token creater")
-   const cookiesOptions={
-    expires:new Date(Date.now()+process.env.COOKIES_EXPIRE)*24*60*60*1000
-     ,
-   httpOnly:true
-   }
-  
- if(process.env.NODE_ENV==="production") cookiesOptions.secure=true
-  const token =signtoken(user.id)
-  console.log(token,"is this token")
-  res.cookie("jwt",token, {
-            httpOnly: true,         // Prevents JavaScript access to the cookie
-            secure: process.env.NODE_ENV === 'production', // Sends only over HTTPS in production
-            maxAge: 24 * 60 * 60 * 1000 // Cookie expiration time in milliseconds (1 day)
-        })
+createToken = (user, res) => {
+  const token = signtoken(user.id);
+
+  res.cookie("jwt", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // HTTPS in production only
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    
+  });
 
   res.status(200).json({
-    status:"succees",
-    token
-  })
-}
+    status: "success",
+    token,
+    user
+  });
+};
 
 
 exports.signUp=catchAsync(async(req,res,next)=>{
@@ -55,7 +49,7 @@ exports.signUp=catchAsync(async(req,res,next)=>{
 
 exports.signIn=catchAsync(async(req,res,next)=>{
    const {email,password}=req.body
-   console.log(email,password)
+  
   if(!email||!password) {
     return next(new AppError("please provide the email or password",400))
   }
@@ -69,7 +63,17 @@ exports.signIn=catchAsync(async(req,res,next)=>{
  createToken(user,res)
 
 })
-
+exports.logOut=catchAsync(async(req,res,nex)=>{
+  console.log('cookie is ',req.cookies.jwt)
+  res.cookie("jwt","removed",{
+    httpOnly:true,
+    expires:new Date(Date.now()+10*1000)
+  })
+ 
+  res.status(200).json({
+    status:"success"
+  })
+})
 
 
 exports.ForgetPassword=catchAsync(async(req,res,next)=>{
@@ -183,7 +187,7 @@ exports.updatePassword=catchAsync(async(req,res,next)=>{
 exports.protect= catchAsync(async(req,res,next)=>{
    let token;
    // check if the header exist and start with bearer
-  console.log(req.params)
+ 
    console.log('protect is wrunnung')
 if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
   token = req.headers.authorization.split(' ')[1];
@@ -197,7 +201,7 @@ if (!token || token === 'null') {
    console.log('protect is wranningunnung')
   return next(new AppError('You are not logged in! Please log in to get access.', 401));
 }
-
+ 
       
    // verify the token 
    const decoded= await promisify(jwt.verify)(token,process.env.SEC_WORD)
