@@ -12,7 +12,7 @@ const App =express()
 // morgan midlware used to log request info
 
 
-App.use(cookieParser());
+
 
 
 
@@ -20,20 +20,18 @@ App.use(cookieParser());
 // Allow all origins (not recommended for production)
 App.use(
   cors({
-    origin: "http://localhost:5173", // Replace with your frontend origin
+    origin: "http://localhost:5173", // Your frontend URL
     credentials: true, // Allow cookies to be sent
   })
 );
 
+
 App.use(morgan("dev"))
 App.use(express.static(`${__dirname}/public`));
 App.use(express.json());
+App.use(cookieParser());
 
-App.set("view engine", "pug");
 
-// Set the directory for Pug templates
-App.set("views", path.join(__dirname, "views"))
-// Middleware to parse URL-encoded form data (optional, if needed)
 App.use(express.urlencoded({ extended: true }));
 App.use("/",viewRoute)
 App.use("/api/v1/car",CarRoute)

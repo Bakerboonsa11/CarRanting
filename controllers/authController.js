@@ -15,12 +15,15 @@ return jwt.sign({id},process.env.SEC_WORD,{expiresIn:process.env.EXPIRE_TIME})
 createToken = (user, res) => {
   const token = signtoken(user.id);
 
-  res.cookie("jwt", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // HTTPS in production only
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-    
-  });
+ 
+res.cookie('jwt', token, {
+  httpOnly: true,
+  sameSite: 'None', // Allow cross-site requests
+  secure: process.env.NODE_ENV === 'production'?true:false,
+  maxAge: 24 * 60 * 60 * 1000 // Cookie expiration (1 day)
+});
+
+
 
   res.status(200).json({
     status: "success",
@@ -28,6 +31,7 @@ createToken = (user, res) => {
     user
   });
 };
+
 
 
 exports.signUp=catchAsync(async(req,res,next)=>{
@@ -64,10 +68,13 @@ exports.signIn=catchAsync(async(req,res,next)=>{
 
 })
 exports.logOut=catchAsync(async(req,res,nex)=>{
-  console.log('cookie is ',req.cookies.jwt)
+console.log('Cookie:', req.cookies.jwt);
+
   res.cookie("jwt","removed",{
     httpOnly:true,
-    expires:new Date(Date.now()+10*1000)
+    expires:new Date(Date.now()+10*1000),
+    sameSite:none
+    
   })
  
   res.status(200).json({
@@ -189,20 +196,23 @@ exports.protect= catchAsync(async(req,res,next)=>{
    // check if the header exist and start with bearer
  
    console.log('protect is wrunnung')
+   console.log(req.headers.cookie)
+   console.log(req.cookies.jwt)
 if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
   token = req.headers.authorization.split(' ')[1];
-  
+  console.log("cookie is from header")
 }
 else if(req.cookies.jwt){
+  console.log("jwt is from cookie")
    token=req.cookies.jwt
 }
 
 if (!token || token === 'null') {
-   console.log('protect is wranningunnung')
+
   return next(new AppError('You are not logged in! Please log in to get access.', 401));
 }
  
-      
+    console.log("the token is ",token)
    // verify the token 
    const decoded= await promisify(jwt.verify)(token,process.env.SEC_WORD)
    console.log(decoded)
@@ -218,7 +228,7 @@ if (!token || token === 'null') {
     };
 
     req.user=freshUser
-    res.locals.user=freshUser
+   
    next()
 });
 exports.isLogedIn= async (req,res,next)=>{
