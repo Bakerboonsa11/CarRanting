@@ -1,6 +1,6 @@
 const { models } = require("mongoose");
 const AppFeatures=require('./../utils/AppFeatures')
-
+const AppError=require("../utils/AppError")
 exports.createOne=(Model)=>catchAsync(async(req,res)=>{
  const instance=await Model.create(req.body)
    res.status(200).json({
@@ -26,9 +26,13 @@ exports.deleteOne=(Model)=>catchAsync(async(req,res,next)=>{
 
 exports.updateOne=(Model)=>catchAsync((async(req,res,next)=>{
   console.log("entered update page")
+  //  console.log(req.files)
+   req.body.images=req.files
+   console.log(req.body)
    const updatedInstance=await Model.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
+ 
      if(!updatedInstance){
-      return next(new AppError("there is no user with this info to update",404))
+      return next(new AppError("there is no data with this info to update",404))
      }
 
      res.status(200).json({

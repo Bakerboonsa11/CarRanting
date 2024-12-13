@@ -73,7 +73,7 @@ if(process.env.NODENV==="production"){
 }
 
 else if (process.env.NODENV==="development"){
-
+   console.log("error is ",error)
   if(error.name==="CastError") error=CastError(error)
   if(error.code===11000) error=handledePlicateErrorDB(error)
   if(error.name==="ValidationError") error=ValidationError(error)

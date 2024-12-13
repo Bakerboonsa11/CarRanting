@@ -4,6 +4,53 @@ const AppFeatures=require("./../utils/AppFeatures")
 const AppError=require("./../utils/AppError")
 const catchAsync=require("./../utils/asyncError")
 const factoryfn=require('./../controllers/factoryFnc')
+const multer =require("multer");
+const sharp =require("sharp");
+const storage=multer.memoryStorage();
+const filterMulter=(req,file,cb)=>{
+  if(file.mimetype.startsWith("image")){
+    cb(null,true)
+  }
+  else {
+    cb(new AppError("invalid file type please provide imge",400),false)
+  }
+}
+const upload=multer({
+  storage,
+  filterMulter
+})
+
+exports.uploadFiles=upload.fields([{
+    name:"images",
+    maxCount:3
+}
+])
+
+exports.processImages = async (req, res, next) => {
+    console.log("files are", req.files);
+    const files = [];
+
+    // Map over files and return an array of promises
+    const promises = req.files.images.map(async (element, index) => {
+        const fileName = `car-${req.params.id}-${index}.jpeg`; // Add file extension
+        console.log(fileName);
+
+        await sharp(element.buffer)
+            .resize(500, 500)
+            .toFormat("jpeg")
+            .jpeg({ quality: 90 })
+            .toFile(`public/images/cars/${fileName}`);
+
+        files.push(fileName); // Correctly push fileName (with extension) to files array
+    });
+
+    // Wait for all promises to resolve
+    await Promise.all(promises);
+    req.files=files
+    console.log(files); // Now this will contain all processed file names
+    next();
+};
+
 exports.getTopCar=(req,res,next)=>{
       req.query.pricePerDay=50;
       req.query.limit=3

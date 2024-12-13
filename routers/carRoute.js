@@ -20,7 +20,8 @@ Router.route('/')
 .post(carController.createCar)
 Router.route("/:id")
 .get(authController.protect,carController.getOneCar)
-.patch(carController.updateCar)
+.patch(authController.protect,authController.strictTo("Admin"), 
+      carController.uploadFiles,carController.processImages,carController.updateCar)
 .delete(carController.deleteCar)
 
 module.exports=Router
