@@ -8,7 +8,7 @@ Router.use("/:carId/Review", ReviewRoute);
 
 // STATICS DATA CAR ROUTES
 Router.route('/top-3-cheapCar')
-.get(authController.protect,authController.strictTo("admin"),carController.getTopCar,carController.getAllCar)
+.get(authController.protect,carController.getTopCar,carController.getAllCar)
 Router.route('/getCarStat')
 .get(carController.getCarStat)
 

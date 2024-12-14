@@ -6,6 +6,7 @@ const catchAsync=require("./../utils/asyncError")
 const factoryfn=require('./../controllers/factoryFnc')
 const multer =require("multer");
 const sharp =require("sharp");
+const Email=require('../utils/sendEmail.js')
 const storage=multer.memoryStorage();
 const filterMulter=(req,file,cb)=>{
   if(file.mimetype.startsWith("image")){
@@ -52,11 +53,13 @@ exports.processImages = async (req, res, next) => {
 };
 
 exports.getTopCar=(req,res,next)=>{
+     
       req.query.pricePerDay=50;
       req.query.limit=3
       req.query.page=1
       req.query.sort="-pricePerDay",
       req.query.fields='name,make,pricePerDay'
+
       next()
 }
 

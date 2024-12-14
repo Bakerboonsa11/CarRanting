@@ -7,6 +7,7 @@ const jwt=require("jsonwebtoken")
 const sendEmail=require("./../utils/sendEmail")
 const crypto=require("crypto")
 const {promisify}=require('util')
+const Email= require("../utils/sendEmail.js")
 
 signtoken=(id)=>{
 return jwt.sign({id},process.env.SEC_WORD,{expiresIn:process.env.EXPIRE_TIME})
@@ -35,8 +36,9 @@ res.cookie('jwt', token, {
 
 
 exports.signUp=catchAsync(async(req,res,next)=>{
+  console.log(req.body)
       const user=await User.create(
-    
+     
       {  name: req.body.name,
         email: req.body.email,
         photo: req.body.photo,
@@ -46,7 +48,9 @@ exports.signUp=catchAsync(async(req,res,next)=>{
 
       )
 
-   
+   const emailObject= await new Email(user,`${req.protocol}://${req.get('host')}/api/v1/car`).sendWellCome()
+      
+      console.log(emailObject)
   createToken(user,res)
 
 })
@@ -103,11 +107,13 @@ exports.ForgetPassword=catchAsync(async(req,res,next)=>{
   // send email
 
  try{
-      await sendEmail({
-      email:user.email,
-      subject:"the token will expire in a 10 min",
-      message
-     })
+    //   await sendEmail({
+    //   email:user.email,
+    //   subject:"the token will expire in a 10 min",
+    //   message
+    //  })
+    
+    await new Email(user,URL).sendPasswordReset()
 
      res.status(200).json({
       status:"sucess",
