@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const errorController=require("./controllers/errorController")
 const UseRoute=require('./routers/userRoute')
 const viewRoute=require('./routers/viewRoute')
+const bookingRoute=require("./routers/bookingRoute")
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const App =express()
@@ -37,6 +38,7 @@ App.use(express.urlencoded({ extended: true }));
 App.use("/",viewRoute)
 App.use("/api/v1/car",CarRoute)
 App.use("/api/v1/user",UseRoute)
+App.use("/api/v1/bookings",bookingRoute)
 
 
 
