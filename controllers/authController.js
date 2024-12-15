@@ -272,4 +272,3 @@ exports.strictTo = (...roles) => {
 };
 
 
-{
