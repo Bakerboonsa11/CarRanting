@@ -35,7 +35,7 @@ const reviewSchema= new mongoose.Schema({
 
 reviewSchema.statics.calculateRatingAvrage = async function (carId) {
   try {
-    console.log("entered aggregation");
+    // console.log("entered aggregation");
     const ratingCalculation = await this.aggregate([
       {
         $match: {
@@ -65,29 +65,29 @@ reviewSchema.statics.calculateRatingAvrage = async function (carId) {
       });
     }
   } catch (err) {
-    console.error(err); // Log the error
+    // console.error(err); // Log the error
   }
 };
 
 
 reviewSchema.post('save',function(){
-  console.log("pre is wrning")
+  // console.log("pre is wrning")
   this.constructor.calculateRatingAvrage(this.car)
 })
 
 reviewSchema.pre(/^findOneAnd/, async function (next) {
-  console.log("Entered pre findOneAnd middleware");
+  // console.log("Entered pre findOneAnd middleware");
 
   // Find the document being updated/deleted
   this.r = await this.model.findOne(this.getFilter());
-  console.log("Document found:", this.r);
+  // console.log("Document found:", this.r);
 
   next();
 });
 
 
 reviewSchema.post(/^findOneAnd/,async function(){
-  console.log('also ........')
+  // console.log('also ........')
   await this.r.constructor.calculateRatingAvrage(this.r.car)
 })
 reviewSchema.index({car:1,user:1},{unique:true})

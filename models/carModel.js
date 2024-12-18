@@ -20,10 +20,11 @@ name: {
 ,
  
     
-  make:{
-    type:String,
-    required:[,'maker is required']
-  },
+
+  make: {
+  type: String,
+  required: [true, 'Maker is required']
+},
   year:{
     type:Number,
     required:true
@@ -91,7 +92,7 @@ carSchema.pre(/^find/,function(next){
 })
 
 carSchema.post(/^find/,function(docs,next){
-      console.log(`the time it takes is ${ this.TimeItTake=Date.now()-this.startQueryDate} milisecond`)
+      // console.log(`the time it takes is ${ this.TimeItTake=Date.now()-this.startQueryDate} milisecond`)
       next()
 })
 const Car =mongoose.model("Car",carSchema)

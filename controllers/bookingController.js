@@ -2,7 +2,7 @@ const AppError = require('./../utils/AppError');
 const catchAsync = require('./../utils/asyncError');
 const stripe = require('stripe')(process.env.STRIPEPRIVATEKEY);
 const Car = require('../models/carModel');
-
+const Booking=require('./../models/bookingModel')
 exports.createSession = catchAsync(async (req, res, next) => {
     // 1) Get the car details
     const car = await Car.findById(req.params.carId);
@@ -14,7 +14,7 @@ exports.createSession = catchAsync(async (req, res, next) => {
     // 2) Create the Stripe checkout session
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'], // Only accept card payments
-        success_url: process.env.SUCCESSURL,
+        success_url: `${process.env.SUCCESSURL}api/v1/car/checkout-session?user=${req.user.id}&car=${req.params.carId}&price=${car.pricePerDay}`,
         cancel_url: process.env.CANCELURL,
         customer_email: req.user.email, // Email of the current user
         client_reference_id: req.params.carId, // Car ID for reference
@@ -25,8 +25,8 @@ exports.createSession = catchAsync(async (req, res, next) => {
                     product_data: {
                         name: `${car.name} Car`, // Car name
                         description: car.description, // Car description
-                        images: ['https://www.natours.dev/img/tours/tour-5c88fa8cf4a4da39709c2951-1553152659745-cover.jpeg'], // Optional: Car image
-                    },
+                        images: ['https://cdn.pixabay.com/photo/2012/05/29/00/43/car-49278_1280.jpg'], // Car image URL
+                         },
                     unit_amount: car.pricePerDay, // Price in cents
                 },
                 quantity: 1, // Number of cars to book (default 1)
@@ -40,4 +40,36 @@ exports.createSession = catchAsync(async (req, res, next) => {
         status: 'success',
         session,
     });
+});
+
+
+exports.createcheackoutBooking = catchAsync(async (req, res, next) => {
+    // console.log('Entered booking handler');
+
+    // Extract query parameters
+    const { car, user, price } = req.query;
+
+    // Log received query parameters
+    // console.log("Received query params: ", { car, user, price });
+
+    // Validate parameters
+    if (!car || !user || !price) {
+        return next(new AppError('Missing booking details in the query parameters', 400));
+    }
+
+    // Create a new booking
+    const booking = await Booking.create({
+        car,
+        user,
+        paidPrice:price
+    });
+
+    if (!booking) {
+        return next(new AppError("Booking creation failed", 500));
+    }
+
+    // console.log('Booking created successfully:', booking);
+
+    // Redirect to frontend
+    res.redirect('http://localhost:5173/');
 });

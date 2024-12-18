@@ -12,19 +12,19 @@ exports.getAllReview=factoryfn.getAll(Review)
 
 exports.createReviewForCar=catchAsync(async(req,res,next)=>{
     // fisrt get user that create review and car that review is given to also
-    console.log('entered create')
-    console.log(req.params)
+    // console.log('entered create')
+    // console.log(req.params)
     if(!req.body.user){
       req.body.user=req.user.id
     }
     if(!req.body.car){
         req.body.car=req.params.carId
     }
-    console.log("bbody is",req.body);
+    // console.log("bbody is",req.body);
   
          const review=await Review.create(req.body)
     if(!review) console.log('reviw is noo')
-      console.log("review is ",review)
+      // console.log("review is ",review)
    if(!review) {
     return next(new AppError("review is not created do to some issue",400))
    }
@@ -48,7 +48,7 @@ exports.getAllCarReview = catchAsync(async (req, res, next) => {
   const user_id = req.user?._id; // Safe optional chaining
   const car_id = req.params.carId;
 
-  console.log("User ID and Car ID:", user_id, car_id);
+  // console.log("User ID and Car ID:", user_id, car_id);
 
   if (!user_id || !car_id) {
     return next(
@@ -61,7 +61,7 @@ exports.getAllCarReview = catchAsync(async (req, res, next) => {
 
   // Fetch reviews for the car
   const reviews = await Review.find({ car: car_id });
- console.log("revis now is ",reviews)
+//  console.log("revis now is ",reviews)
   
 
   if (reviews.length === 0) {

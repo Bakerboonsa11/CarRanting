@@ -9,6 +9,7 @@ const viewRoute=require('./routers/viewRoute')
 const bookingRoute=require("./routers/bookingRoute")
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const carModel=require('./models/carModel')
 const App =express()
 // morgan midlware used to log request info
 
@@ -35,7 +36,33 @@ App.use(cookieParser());
 
 App.use(express.urlencoded({ extended: true }));
 
-App.use("/",viewRoute)
+// App.use("/",viewRoute)
+
+App.post('/all',async(req,res,next)=>{
+     try {
+  
+
+    // Get data from the request body
+    const data = req.body; // Ensure this is an array of objects to insert
+
+   
+
+    // Insert multiple documents into the database
+    const result = await carModel.insertMany(data);
+    console.log(result)
+    // Send success response
+    res.status(201).json({
+      status: 'success',
+      data: result,
+    });
+  } catch (error) {
+    // Handle errors (e.g., validation, duplicate keys)
+    res.status(500).json({
+      status: 'error',
+      message: error.message,
+    });
+  }
+})
 App.use("/api/v1/car",CarRoute)
 App.use("/api/v1/user",UseRoute)
 App.use("/api/v1/bookings",bookingRoute)

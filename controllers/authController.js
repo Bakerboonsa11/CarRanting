@@ -36,7 +36,7 @@ res.cookie('jwt', token, {
 
 
 exports.signUp=catchAsync(async(req,res,next)=>{
-  console.log(req.body)
+  // console.log(req.body)
       const user=await User.create(
      
       {  name: req.body.name,
@@ -50,7 +50,7 @@ exports.signUp=catchAsync(async(req,res,next)=>{
 
    const emailObject= await new Email(user,`${req.protocol}://${req.get('host')}/api/v1/car`).sendWellCome()
       
-      console.log(emailObject)
+      // console.log(emailObject)
   createToken(user,res)
 
 })
@@ -66,13 +66,13 @@ exports.signIn=catchAsync(async(req,res,next)=>{
  if(!user || !await user.correctPassword(password,user.password)){
      return next(new AppError("incorrct password or email",400))
  }
-  console.log(user, "is UserActivation")
+  // console.log(user, "is UserActivation")
 
  createToken(user,res)
 
 })
 exports.logOut=catchAsync(async(req,res,nex)=>{
-console.log('Cookie:', req.cookies.jwt);
+// console.log('Cookie:', req.cookies.jwt);
 
   res.cookie("jwt","removed",{
     httpOnly:true,
@@ -89,9 +89,9 @@ console.log('Cookie:', req.cookies.jwt);
 
 exports.ForgetPassword=catchAsync(async(req,res,next)=>{
 
-  console.log("forgetpage")
+  // console.log("forgetpage")
   const email=req.body.email
-  console.log(email)
+  // console.log(email)
   if(!email) next(new AppError("please provide email",400))
 
   const user=await User.findOne({email})
@@ -138,7 +138,7 @@ exports.restPassword=catchAsync(async(req,res,next)=>{
   if(!reset_token) { return next(new AppError("altering the link is forbidden please try again"))}
 
   const hashedResetToken=  this.resetPassword=crypto.createHash("sha256").update(reset_token).digest("hex")
-  console.log(hashedResetToken)
+  // console.log(hashedResetToken)
    const user =await User.findOne({
     resetPassword:hashedResetToken,
     // expireResetPassword:{$gt:Date.now()}
@@ -150,7 +150,7 @@ exports.restPassword=catchAsync(async(req,res,next)=>{
       return next(new AppError(" invalid token on some issue you are already logdin in"),500)
     }
 
-   console.log(user)
+  //  console.log(user)
 
 
   user.password=req.body.password
@@ -159,7 +159,7 @@ exports.restPassword=catchAsync(async(req,res,next)=>{
   user.expireResetPassword=undefined
   await user.save()
 
-  console.log(user)
+  // console.log(user)
 //  check wether the reset password is expired or not 
 
 // r update the value
@@ -179,9 +179,9 @@ exports.updatePassword=catchAsync(async(req,res,next)=>{
     if(!user){
       return next(new AppError("please log in first",400))
     }
-     console.log(user,"update user")
+    //  console.log(user,"update user")
      
-     console.log(await user.correctPassword(req.body.password,user.password))
+    //  console.log(await user.correctPassword(req.body.password,user.password))
     if(! await user.correctPassword(req.body.password,user.password)){
       return next(new AppError("incorrect password",400))
     }
@@ -201,15 +201,15 @@ exports.protect= catchAsync(async(req,res,next)=>{
    let token;
    // check if the header exist and start with bearer
  
-   console.log('protect is wrunnung')
-   console.log(req.headers.cookie)
-   console.log(req.cookies.jwt)
+  //  console.log('protect is wrunnung')
+  //  console.log(req.headers.cookie)
+  //  console.log(req.cookies.jwt)
 if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
   token = req.headers.authorization.split(' ')[1];
-  console.log("cookie is from header")
+  // console.log("cookie is from header")
 }
 else if(req.cookies.jwt){
-  console.log("jwt is from cookie")
+  // console.log("jwt is from cookie")
    token=req.cookies.jwt
 }
 
@@ -218,17 +218,17 @@ if (!token || token === 'null') {
   return next(new AppError('You are not logged in! Please log in to get access.', 401));
 }
  
-    console.log("the token is ",token)
+    // console.log("the token is ",token)
    // verify the token 
    const decoded= await promisify(jwt.verify)(token,process.env.SEC_WORD)
-   console.log(decoded)
+  //  console.log(decoded)
    // check weather a user is still exist 
    const freshUser= await User.findById(decoded.id)
-   console.log("the fresh user is ",freshUser)
+  //  console.log("the fresh user is ",freshUser)
    if(!freshUser){
       return next(new AppError("the user blonging to this token does not exist"),401)
    }
-   console.log(decoded.iat)
+  //  console.log(decoded.iat)
    if(freshUser.ispasswordUpdated(decoded.iat)){
        return next(new AppError("user changed a password pleaselogin again"),401)
     };
@@ -261,9 +261,9 @@ exports.isLogedIn= async (req,res,next)=>{
 }
 
 exports.strictTo = (...roles) => {
-    console.log('Entered restrict middleware');
+    // console.log('Entered restrict middleware');
     return (req, res, next) => {
-        console.log('User in strictTo:', req.user);
+        // console.log('User in strictTo:', req.user);
         if (!req.user || !roles.includes(req.user.roles)) {
             return next(new AppError('You do not have permission to perform this action', 403));
         }

@@ -2,7 +2,7 @@ const express=require('express');
 const carController=require('./../controllers/carController')
  const ReviewRoute= require("./reviewRoute")
  const authController=require("./../controllers/authController")
-
+  const bookingController=require('./../controllers/bookingController')
 const Router=express.Router();
 Router.use("/:carId/Review", ReviewRoute);
 
@@ -18,6 +18,8 @@ Router.route('/getCarStat')
 Router.route('/')
 .get(carController.getAllCar)
 .post(carController.createCar)
+Router.route('/checkout-session').get(bookingController.createcheackoutBooking);
+Router.get('/getMyCars',authController.protect,carController.getMyCars)
 Router.route("/:id")
 .get(authController.protect,carController.getOneCar)
 .patch(authController.protect,authController.strictTo("Admin"), 

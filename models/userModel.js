@@ -59,7 +59,7 @@ userSchema.pre("save", async function (next) {
     return next(new AppError("Please provide the same password", 400));
   }
   this.password=await bcrypt.hash(this.password,12)
-  console.log(this.password)
+  // console.log(this.password)
   // Ensure confirmPassword is not saved in the database
   this.confirmPassword = undefined;
   next();

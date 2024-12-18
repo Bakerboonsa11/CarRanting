@@ -13,9 +13,9 @@ const sharp=require("sharp");
 
 const filterObject=(bodyObject,...filterObject)=>{
   let newObject={};
-  console.log(bodyObject,filterObject)
+  // console.log(bodyObject,filterObject)
      Object.keys(bodyObject).forEach(key=>{
-      console.log(key)
+      // console.log(key)
         if(filterObject.includes(key)){
           newObject[key]=bodyObject[key]
         }
@@ -68,9 +68,9 @@ exports.resizeImage=async(req,res,next)=>{
 
 exports.uploadImage=upload.single("photo")
 exports.updateMe=catchAsync(async(req,res,next)=>{
-  console.log("file uploaded is ",req.file)
-  console.log('entered  update me')
-   console.log(req.user)
+  // console.log("file uploaded is ",req.file)
+  // console.log('entered  update me')
+  //  console.log(req.user)
   const filteredObjectResul=filterObject(req.body,"name","email")
   if(req.file){
     filteredObjectResul.photo=req.file.filename;

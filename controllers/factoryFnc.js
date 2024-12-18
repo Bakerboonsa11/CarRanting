@@ -25,10 +25,10 @@ exports.deleteOne=(Model)=>catchAsync(async(req,res,next)=>{
 })
 
 exports.updateOne=(Model)=>catchAsync((async(req,res,next)=>{
-  console.log("entered update page")
+  // console.log("entered update page")
   //  console.log(req.files)
    req.body.images=req.files
-   console.log(req.body)
+  //  console.log(req.body)
    const updatedInstance=await Model.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
  
      if(!updatedInstance){
@@ -42,7 +42,7 @@ exports.updateOne=(Model)=>catchAsync((async(req,res,next)=>{
 }))
 
 exports.getOne=(Model)=>catchAsync(async(req,res,next)=>{
-  console.log("entered get one ")
+  // console.log("entered get one ")
     const GetedInstance = await Model.findById(req.params.id);
     if(!GetedInstance){
       return next(new AppError("there is no data with this is"),404)
@@ -56,7 +56,7 @@ exports.getOne=(Model)=>catchAsync(async(req,res,next)=>{
 })
 exports.getAll=(Model)=>catchAsync(async(req,res,next)=>{
   
-         console.log('entered getalll')
+        //  console.log('entered getalll')
          const feature=new AppFeatures(Model.find(),req.query)
          .filter()
          .sort()

@@ -10,9 +10,9 @@ const CastError=(error)=>{
     return new AppError(message,400)
 }
 const ValidationError = (error) => {
-  console.log(error)
+  // console.log(error)
    if (!error.errors) {
-      console.error("The error object doesn't contain 'errors'");
+      // console.error("The error object doesn't contain 'errors'");
       return new AppError("An unexpected validation error occurred", 400);
    }
 
