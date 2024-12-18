@@ -24,6 +24,7 @@ exports.deleteOne=(Model)=>catchAsync(async(req,res,next)=>{
      })
 })
 
+
 exports.updateOne=(Model)=>catchAsync((async(req,res,next)=>{
   // console.log("entered update page")
   //  console.log(req.files)
