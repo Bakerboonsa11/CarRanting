@@ -85,20 +85,20 @@ res.status(200).json({
   updateeduser:user
 })
 })
-exports.deleteUserMe=catchAsync(async(req,res,next)=>{
-  const user= await User.findByIdAndDelete(req.user.id);
+const deleteUserMe = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndDelete(req.user.id);
 
-if(!user){
-  return new AppError("please login first",400)
-}
-res.status(200).json({
-  status:"success",
-   data:null
-})
+  if (!user) {
+    // Throw error properly so it gets caught by your error handler
+    return next(new AppError("Please login first", 400));
+  }
 
+  res.status(200).json({
+    status: "success",
+    data: null
+  });
+});
 
-
-})
 exports.createUser= factoryfn.createOne(User)
 exports.getUsers=factoryfn.getAll(User)
 
