@@ -116,7 +116,7 @@ exports.ForgetPassword=catchAsync(async(req,res,next)=>{
     await new Email(user,URL).sendPasswordReset()
 
      res.status(200).json({
-      status:"sucess",
+      status:"success",
       message :"email sent"
      })
      }catch(error){
