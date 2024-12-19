@@ -10,7 +10,7 @@ Router.post('/signIn',authController.signIn)
 Router.get('/logOut',authController.logOut)
 
 Router.patch('/updateMe',authController.protect,userController.uploadImage,userController.resizeImage,userController.updateMe)
-Router.get("/ForgetPassword",authController.ForgetPassword)
+Router.post("/ForgetPassword",authController.ForgetPassword)
 Router.post("/forgetPassword/:reset_password",authController.restPassword)
 Router.patch("/updatePassword",authController.protect,authController.updatePassword)
 
