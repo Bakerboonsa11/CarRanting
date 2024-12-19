@@ -40,9 +40,9 @@ module.exports=class Email {
     this.firstName=user.name.split(' ')[0]
  }
   newTransporter() {
-    if(process.env.NODENV==="production"){
-        return 0
-    }
+   //  if(process.env.NODENV==="production"){
+   //      return 0
+   //  }
 
 
     return nodemailer.createTransport({

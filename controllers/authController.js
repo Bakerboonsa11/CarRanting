@@ -100,7 +100,7 @@ exports.ForgetPassword=catchAsync(async(req,res,next)=>{
  
   // create new reset token
   const resetPassword=user.createResetPassword()
-  const URL =`${req.protocol}://${req.get("host")}/api/v1/user/ForgetPassword/${resetPassword}`
+  const URL =`https://carranting-qqgl.onrender.com/api/v1/user/ForgetPassword/${resetPassword}`
   const message=`if you forget password please click ${URL}`;
 
   await user.save({validateBeforeSave:false})
