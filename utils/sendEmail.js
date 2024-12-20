@@ -40,7 +40,7 @@ module.exports=class Email {
     this.firstName=user.name.split(' ')[0]
  }
   newTransporter() {
-    if(process.env.NODENV==="production"){
+    if(process.env.NODENV==="development"){
    return  nodemailer.createTransport({
    service: 'gmail',
    auth: {
