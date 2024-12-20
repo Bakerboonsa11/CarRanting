@@ -40,9 +40,15 @@ module.exports=class Email {
     this.firstName=user.name.split(' ')[0]
  }
   newTransporter() {
-   //  if(process.env.NODENV==="production"){
-   //      return 0
-   //  }
+    if(process.env.NODENV==="production"){
+   return  nodemailer.createTransport({
+   service: 'gmail',
+   auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAILPASSWORD,  // Your App Password (not your main password)
+   },
+});
+    }
 
 
     return nodemailer.createTransport({
