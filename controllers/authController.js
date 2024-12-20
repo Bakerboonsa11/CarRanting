@@ -48,7 +48,7 @@ exports.signUp=catchAsync(async(req,res,next)=>{
 
       )
 
-   const emailObject= await new Email(user,`${req.protocol}://${req.get('host')}/api/v1/car`).sendWellCome()
+  //  const emailObject= await new Email(user,`${req.protocol}://${req.get('host')}/api/v1/car`).sendWellCome()
       
       // console.log(emailObject)
   createToken(user,res)
