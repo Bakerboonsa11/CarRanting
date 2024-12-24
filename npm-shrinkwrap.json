@@ -509,9 +509,9 @@
       }
     },
     "node_modules/@stripe/stripe-js": {
-      "version": "5.3.0",
-      "resolved": "https://registry.npmjs.org/@stripe/stripe-js/-/stripe-js-5.3.0.tgz",
-      "integrity": "sha512-lNCZwCak1Yk0x2ecQO+4kcV7MwxAXapfgmLEh5SIoczc/r4GWAmcfyXZu3AAle+MAVW9HBe6f7tywuxJtYomcg==",
+      "version": "5.4.0",
+      "resolved": "https://registry.npmjs.org/@stripe/stripe-js/-/stripe-js-5.4.0.tgz",
+      "integrity": "sha512-3tfMbSvLGB+OsJ2MsjWjWo+7sp29dwx+3+9kG/TEnZQJt+EwbF/Nomm43cSK+6oXZA9uhspgyrB+BbrPRumx4g==",
       "license": "MIT",
       "engines": {
         "node": ">=12.16"
@@ -771,6 +771,21 @@
       "engines": {
         "node": ">= 0.8",
         "npm": "1.2.8000 || >= 1.4.16"
+      }
+    },
+    "node_modules/body-parser/node_modules/qs": {
+      "version": "6.13.0",
+      "resolved": "https://registry.npmjs.org/qs/-/qs-6.13.0.tgz",
+      "integrity": "sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==",
+      "license": "BSD-3-Clause",
+      "dependencies": {
+        "side-channel": "^1.0.6"
+      },
+      "engines": {
+        "node": ">=0.6"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
       }
     },
     "node_modules/brace-expansion": {
@@ -1162,9 +1177,9 @@
       }
     },
     "node_modules/domutils": {
-      "version": "3.1.0",
-      "resolved": "https://registry.npmjs.org/domutils/-/domutils-3.1.0.tgz",
-      "integrity": "sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==",
+      "version": "3.2.1",
+      "resolved": "https://registry.npmjs.org/domutils/-/domutils-3.2.1.tgz",
+      "integrity": "sha512-xWXmuRnN9OMP6ptPd2+H0cCbcYBULa5YDTbMm/2lvkWvNA3O4wcW+GvzooqBuNM8yy6pl3VIAeJTUUWUbfI5Fw==",
       "license": "BSD-2-Clause",
       "dependencies": {
         "dom-serializer": "^2.0.0",
@@ -1341,6 +1356,21 @@
       "license": "MIT",
       "engines": {
         "node": ">= 0.6"
+      }
+    },
+    "node_modules/express/node_modules/qs": {
+      "version": "6.13.0",
+      "resolved": "https://registry.npmjs.org/qs/-/qs-6.13.0.tgz",
+      "integrity": "sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==",
+      "license": "BSD-3-Clause",
+      "dependencies": {
+        "side-channel": "^1.0.6"
+      },
+      "engines": {
+        "node": ">=0.6"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
       }
     },
     "node_modules/fill-range": {
@@ -1738,9 +1768,9 @@
       }
     },
     "node_modules/is-core-module": {
-      "version": "2.16.0",
-      "resolved": "https://registry.npmjs.org/is-core-module/-/is-core-module-2.16.0.tgz",
-      "integrity": "sha512-urTSINYfAYgcbLb0yDQ6egFm6h3Mo1DcF9EkyXSRjjzdHbsulg01qhwWuXdOoUBuTkbQ80KDboXa0vFJ+BDH+g==",
+      "version": "2.16.1",
+      "resolved": "https://registry.npmjs.org/is-core-module/-/is-core-module-2.16.1.tgz",
+      "integrity": "sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==",
       "license": "MIT",
       "dependencies": {
         "hasown": "^2.0.2"
@@ -1999,9 +2029,9 @@
       }
     },
     "node_modules/math-intrinsics": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.0.0.tgz",
-      "integrity": "sha512-4MqMiKP90ybymYvsut0CH2g4XWbfLtmlCkXmtmdcDCxNB+mQcu1w/1+L/VD7vi/PSv7X2JYV7SCcR+jiPXnQtA==",
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz",
+      "integrity": "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==",
       "license": "MIT",
       "engines": {
         "node": ">= 0.4"
@@ -2197,9 +2227,9 @@
       }
     },
     "node_modules/mongoose": {
-      "version": "8.9.1",
-      "resolved": "https://registry.npmjs.org/mongoose/-/mongoose-8.9.1.tgz",
-      "integrity": "sha512-whM6lWMdeKlUm4d2LSLS/q6cWtTp13lUrL5hy2YTsQdTSN+dsAu8HLdLUQOEgtBE59qp4IqLrjSXCSETbxhkQQ==",
+      "version": "8.9.2",
+      "resolved": "https://registry.npmjs.org/mongoose/-/mongoose-8.9.2.tgz",
+      "integrity": "sha512-mLWynmZS1v8HTeMxyLhskQncS1SkrjW1eLNuFDYGQMQ/5QrFrxTLNwWXeCRZeKT2lXyaxW8bnJC9AKPT9jYMkw==",
       "license": "MIT",
       "dependencies": {
         "bson": "^6.10.1",
@@ -2768,9 +2798,9 @@
       }
     },
     "node_modules/qs": {
-      "version": "6.13.0",
-      "resolved": "https://registry.npmjs.org/qs/-/qs-6.13.0.tgz",
-      "integrity": "sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==",
+      "version": "6.13.1",
+      "resolved": "https://registry.npmjs.org/qs/-/qs-6.13.1.tgz",
+      "integrity": "sha512-EJPeIn0CYrGu+hli1xilKAPXODtJ12T0sP63Ijx2/khC2JtuaN3JyNIpvmnkmaEtha9ocbG4A4cMcr+TvqvwQg==",
       "license": "BSD-3-Clause",
       "dependencies": {
         "side-channel": "^1.0.6"
@@ -2869,9 +2899,9 @@
       }
     },
     "node_modules/resolve": {
-      "version": "1.22.9",
-      "resolved": "https://registry.npmjs.org/resolve/-/resolve-1.22.9.tgz",
-      "integrity": "sha512-QxrmX1DzraFIi9PxdG5VkRfRwIgjwyud+z/iBwfRRrVmHc+P9Q7u2lSSpQ6bjr2gy5lrqIiU9vb6iAeGf2400A==",
+      "version": "1.22.10",
+      "resolved": "https://registry.npmjs.org/resolve/-/resolve-1.22.10.tgz",
+      "integrity": "sha512-NPRy+/ncIMeDlTAsuqwKIiferiawhefFJtkNSW0qZJEqMEb+qBt/77B/jGeeek+F0uOeN05CDa6HXbbIgtVX4w==",
       "license": "MIT",
       "dependencies": {
         "is-core-module": "^2.16.0",
@@ -2880,6 +2910,9 @@
       },
       "bin": {
         "resolve": "bin/resolve"
+      },
+      "engines": {
+        "node": ">= 0.4"
       },
       "funding": {
         "url": "https://github.com/sponsors/ljharb"
@@ -3245,9 +3278,9 @@
       }
     },
     "node_modules/stripe": {
-      "version": "17.4.0",
-      "resolved": "https://registry.npmjs.org/stripe/-/stripe-17.4.0.tgz",
-      "integrity": "sha512-sQQGZguPxe7/QYXJKtDpfzT2OAH9F8nyE2SOsVdTU793iiU33/dpaKgWaJEGJm8396Yy/6NvTLblgdHlueGLhA==",
+      "version": "17.5.0",
+      "resolved": "https://registry.npmjs.org/stripe/-/stripe-17.5.0.tgz",
+      "integrity": "sha512-kcyeAkDFjGsVl17FqnG7q/+xIjt0ZjOo9Dm+q8deAvs2Xe4iAHrhxyoP4etUVFc+/LZJANjIPVR+ZOnt9hr/Ug==",
       "license": "MIT",
       "dependencies": {
         "@types/node": ">=8.1.0",
