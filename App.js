@@ -22,7 +22,7 @@ const App =express()
 // Allow all origins (not recommended for production)
 App.use(
   cors({
-    origin: "http://localhost:5173https://car-rantingf-v9f2.vercel.app/", // Your frontend URL
+    origin: "https://car-rantingf-v9f2-cdlsneerz-bonsas-projects.vercel.app/", // Your frontend URL
     credentials: true, // Allow cookies to be sent
   })
 );
