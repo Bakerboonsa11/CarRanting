@@ -12,28 +12,30 @@ exports.createSession = catchAsync(async (req, res, next) => {
     }
 
     // 2) Create the Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'], // Only accept card payments
-        success_url: `${process.env.SUCCESSURL}api/v1/car/checkout-session?user=${req.user.id}&car=${req.params.carId}&price=${car.pricePerDay}`,
-        cancel_url: process.env.CANCELURL,
-        customer_email: req.user.email, // Email of the current user
-        client_reference_id: req.params.carId, // Car ID for reference
-        line_items: [
-            {
-                price_data: {
-                    currency: 'usd',
-                    product_data: {
-                        name: `${car.name} Car`, // Car name
-                        description: car.description, // Car description
-                        images: ['https://cdn.pixabay.com/photo/2012/05/29/00/43/car-49278_1280.jpg'], // Car image URL
-                         },
-                    unit_amount: car.pricePerDay, // Price in cents
+   const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    success_url: `${process.env.SUCCESSURL}api/v1/car/checkout-session?user=${req.user.id}&car=${req.params.carId}&price=${car.pricePerDay}`,
+    cancel_url: process.env.CANCELURL,
+    customer_email: req.user.email,
+    client_reference_id: req.params.carId,
+    line_items: [
+        {
+            price_data: {
+                currency: 'usd',
+                product_data: {
+                    name: `${car.name} Car`,
+                    description: car.description,
+                    images: ['https://cdn.pixabay.com/photo/2012/05/29/00/43/car-49278_1280.jpg'],
                 },
-                quantity: 1, // Number of cars to book (default 1)
+                unit_amount: car.pricePerDay,
             },
-        ],
-        mode: 'payment', // Mode for one-time payment
-    });
+            quantity: 1,
+        },
+    ],
+    mode: 'payment',
+});
+
+
 
     // 3) Send the session to the client
     res.status(200).json({
@@ -41,6 +43,8 @@ exports.createSession = catchAsync(async (req, res, next) => {
         session,
     });
 });
+
+
 
 
 exports.createcheackoutBooking = catchAsync(async (req, res, next) => {
@@ -58,11 +62,12 @@ exports.createcheackoutBooking = catchAsync(async (req, res, next) => {
     }
 
     // Create a new booking
-    const booking = await Booking.create({
-        car,
-        user,
-        paidPrice:price
-    });
+   const booking = await Booking.create({
+    car,
+    user,
+    paidPrice: price,
+});
+
 
     if (!booking) {
         return next(new AppError("Booking creation failed", 500));
@@ -71,5 +76,5 @@ exports.createcheackoutBooking = catchAsync(async (req, res, next) => {
     // console.log('Booking created successfully:', booking);
 
     // Redirect to frontend
-    res.redirect('http://localhost:5173/');
+    res.redirect('https://carrantingf.onrender.com');
 });
