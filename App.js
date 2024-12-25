@@ -20,7 +20,7 @@ const App =express()
 
 
 // Allow all origins (not recommended for production)
-app.use(
+App.use(
   cors({
     origin: [
       "https://carrantingf.onrender.com", // Your frontend URL without trailing slash
