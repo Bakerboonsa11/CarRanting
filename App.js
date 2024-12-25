@@ -22,9 +22,9 @@ const App =express()
 // Allow all origins (not recommended for production)
 App.use(
   cors({
-    origin: "https://bosbak-obcl95b85-bonsas-projects.vercel.app", // Your frontend URL
+    origin: "https://carrantingf.onrender.com", // Your frontend URL
     credentials: true, // Allow cookies to be sent
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Add methods that you want to allow
+    methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'], // Add methods that you want to allow
     allowedHeaders: ['Content-Type', 'Authorization'], // Add headers you need to allow
   })
 );
