@@ -22,7 +22,7 @@ const App =express()
 // Allow all origins (not recommended for production)
 App.use(
   cors({
-    origin: "http://localhost:5173", // Your frontend URL
+    origin: "https://bosbak-obcl95b85-bonsas-projects.vercel.app", // Your frontend URL
     credentials: true, // Allow cookies to be sent
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Add methods that you want to allow
     allowedHeaders: ['Content-Type', 'Authorization'], // Add headers you need to allow
