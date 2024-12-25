@@ -22,7 +22,7 @@ const App =express()
 // Allow all origins (not recommended for production)
 App.use(
   cors({
-    origin: "https://bosbak-obcl95b85-bonsas-projects.vercel.app/", // Your frontend URL
+    origin: "http://localhost:5173/", // Your frontend URL
     credentials: true, // Allow cookies to be sent
   })
 );
